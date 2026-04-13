@@ -1,0 +1,92 @@
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import i18next from 'i18next'
+import england from 'src/assets/img/england.png'
+import ukraine from 'src/assets/img/ukraine.png'
+
+import ConfirmModal from '@/components/confirmModal'
+import Filter from '@/components/filters'
+import Loader from '@/components/loader'
+import Modal from '@/modal/modal'
+import { UseFilterStore } from '@/store/useFilterStore'
+
+export const App = () => {
+	const { t } = useTranslation()
+
+	const {
+		getFilterItems,
+		isOpen,
+		loading,
+		closeModal,
+		openModal,
+		confirm,
+		closeConfirm,
+		appliedItems
+	} = UseFilterStore()
+
+	useEffect(() => {
+		getFilterItems()
+	}, [])
+
+	return (
+		<section className="w-full min-h-dvh flex flex-col items-center justify-center">
+			<div className="flex gap-1.5 absolute top-3 right-3">
+				<button
+					className="cursor-pointer hover:scale-105 active:scale-95 duration-75"
+					onClick={() => i18next.changeLanguage('en')}
+				>
+					<img
+						className="w-12 h-6 rounded-sm"
+						src={england}
+						alt="england-flag"
+					/>
+				</button>
+
+				<button
+					className="cursor-pointer hover:scale-105 active:scale-95 duration-75"
+					onClick={() => i18next.changeLanguage('ua')}
+				>
+					<img
+						className="w-12 h-6 rounded-sm"
+						src={ukraine}
+						alt="ukraine-flag"
+					/>
+				</button>
+			</div>
+
+			{/* eslint-disable-next-line i18next/no-literal-string */}
+
+			<h1 className="text-6xl text-gray-600 mb-12">{t('MainTitle')}</h1>
+
+			<button
+				onClick={openModal}
+				className=" text-center bg-orange-500 hover:bg-orange-600 text-amber-50 px-6 py-2.5 rounded-xl cursor-pointer active:scale-95 duration-75"
+			>
+				{t('Open')}
+			</button>
+
+			{loading && <Loader />}
+
+			<Modal
+				isOpen={isOpen}
+				onClose={closeModal}
+			>
+				{!loading && <Filter />}
+			</Modal>
+
+			<Modal
+				isOpen={confirm}
+				onClose={closeConfirm}
+			>
+				<ConfirmModal onClose={closeConfirm} />
+			</Modal>
+
+			{appliedItems.length > 0 && (
+				<p className="border rounded-2xl p-4 absolute bottom-4">
+					{JSON.stringify(appliedItems)}
+				</p>
+			)}
+		</section>
+	)
+}
