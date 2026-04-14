@@ -1,12 +1,22 @@
 import { useTranslation } from 'react-i18next'
 
+import { useFilters } from '@/hook/useFilters'
 import { UseFilterStore } from '@/store/useFilterStore'
 
+interface ItemsType {
+	id: string
+	name: string
+	options: []
+}
+
 const Filters = () => {
+	const { checkedItems, onCheck, clear, openConfirm } = UseFilterStore()
+
 	const { t } = useTranslation()
 
-	const { filterItems, checkedItems, onCheck, clear, openConfirm } =
-		UseFilterStore()
+	const { data } = useFilters()
+
+	const filterItems = data.filterItems
 
 	return (
 		<div className=" py-3.5 px-5 h-[90vh] overflow-auto">
@@ -14,19 +24,19 @@ const Filters = () => {
 
 			<ul>
 				{filterItems.length > 0 &&
-					filterItems.map(({ id, name, options }) => (
+					filterItems.map(({ id, name, options }: ItemsType) => (
 						<li key={id}>
 							<div className="border border-gray-300 my-6"></div>
 							<h3 className=" text-xl font-normal mb-3">{t(name)}</h3>
 
 							<ul className="grid grid-cols-3  gap-8 ">
-								{options.map(({ id, name }) => (
+								{options?.map(({ id, name }) => (
 									<li key={id}>
 										<label className="flex gap-3 cursor-pointer">
 											<input
 												className="cursor-pointer active:scale-90 duration-75"
 												type="checkbox"
-												checked={!!checkedItems[id]}
+												checked={checkedItems[id] ?? false}
 												onChange={() => onCheck(id)}
 											/>
 

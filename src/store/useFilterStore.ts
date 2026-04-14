@@ -4,22 +4,17 @@ import { persist } from 'zustand/middleware'
 import { FilterChooseOption } from '@/shared/api/types/Filter'
 import { FilterBase } from '@/shared/api/types/Filter/FilterBase.ts'
 
-const API = 'src/shared/temp/filterData.json'
-
 type UseType = FilterBase & { options: FilterChooseOption[] }
 
 interface UseFilter {
 	filterItems: UseType[]
 	appliedItems: string[]
 	checkedItems: Record<string, boolean>
-	loading: boolean
-	error: null | string
 	isOpen: boolean
 	confirm: boolean
 
 	// Function
 	onCheck: (id: string) => void
-	getFilterItems: () => Promise<void>
 	applyFilters: () => void
 	closeConfirm: VoidFunction
 	openConfirm: VoidFunction
@@ -38,23 +33,6 @@ export const UseFilterStore = create<UseFilter>()(
 			error: null,
 			isOpen: false,
 			confirm: false,
-
-			getFilterItems: async () => {
-				set({ loading: true, error: null })
-
-				try {
-					const response = await fetch(API)
-					if (!response.ok) throw new Error()
-
-					const data = await response.json()
-
-					set({ filterItems: data.filterItems })
-				} catch {
-					set({ error: 'Failed loading' })
-				} finally {
-					set({ loading: false })
-				}
-			},
 
 			onCheck: id =>
 				set(state => ({
