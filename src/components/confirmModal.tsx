@@ -2,10 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 import { UseFilterStore } from '@/store/useFilterStore'
 
-type Props = {
-	onClose: VoidFunction
-}
-const ConfirmModal = ({ onClose }: Props) => {
+const ConfirmModal = () => {
 	const { closeConfirm, closeModal, applyFilters } = UseFilterStore()
 
 	const { t } = useTranslation()
@@ -17,15 +14,15 @@ const ConfirmModal = ({ onClose }: Props) => {
 			<div className="flex justify-between px-8 mb-8">
 				<button
 					className=" border hover:bg-orange-500 hover:text-amber-50 px-6 py-2.5 rounded-xl cursor-pointer active:scale-95 duration-75"
-					onClick={onClose}
+					onClick={closeConfirm}
 				>
 					{t('Use old filter')}
 				</button>
 				<button
 					onClick={() => {
+						applyFilters()
 						closeConfirm()
 						closeModal()
-						applyFilters()
 					}}
 					className=" border hover:bg-orange-500 hover:text-amber-50 px-6 py-2.5 rounded-xl cursor-pointer active:scale-95 duration-75"
 				>

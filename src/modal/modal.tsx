@@ -1,9 +1,13 @@
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
-const Modal = ({ isOpen, onClose, children }: any) => {
-	if (!isOpen) return
+interface ModalProps {
+	children: ReactNode
+	onClose: VoidFunction
+	isOpen: boolean
+}
 
+const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 	useEffect(() => {
 		const handleKey = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
@@ -15,6 +19,7 @@ const Modal = ({ isOpen, onClose, children }: any) => {
 		return () => document.removeEventListener('keydown', handleKey)
 	}, [isOpen, onClose])
 
+	if (!isOpen) return null
 	return createPortal(
 		<div
 			className="fixed inset-0 z-50 flex items-center justify-center overflow-auto backdrop-blur-sm"

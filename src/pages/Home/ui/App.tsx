@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import i18next from 'i18next'
@@ -8,16 +8,17 @@ import ukraine from 'src/assets/img/ukraine.png'
 import ConfirmModal from '@/components/confirmModal'
 import Filter from '@/components/filters'
 import Loader from '@/components/loader'
+import { useFilters } from '@/hook/useFilters'
 import Modal from '@/modal/modal'
 import { UseFilterStore } from '@/store/useFilterStore'
 
 export const App = () => {
 	const { t } = useTranslation()
+	const { data, isLoading } = useFilters()
 
 	const {
-		getFilterItems,
 		isOpen,
-		loading,
+
 		closeModal,
 		openModal,
 		confirm,
@@ -25,12 +26,14 @@ export const App = () => {
 		appliedItems
 	} = UseFilterStore()
 
-	useEffect(() => {
-		getFilterItems()
-	}, [])
+	// useEffect(() => {
+	// 	getFilterItems()
+	// }, [getFilterItems])
+
+	if (isLoading) return <Loader />
 
 	return (
-		<section className="w-full min-h-dvh flex flex-col items-center justify-center">
+		<section className="w-full min-h-dvh flex flex-col items-center justify-center p-4">
 			<div className="flex gap-1.5 absolute top-3 right-3">
 				<button
 					className="cursor-pointer hover:scale-105 active:scale-95 duration-75"
@@ -66,20 +69,20 @@ export const App = () => {
 				{t('Open')}
 			</button>
 
-			{loading && <Loader />}
+			{isLoading && <Loader />}
 
 			<Modal
 				isOpen={isOpen}
 				onClose={closeModal}
 			>
-				{!loading && <Filter />}
+				{isLoading ? <Loader /> : <Filter />}
 			</Modal>
 
 			<Modal
 				isOpen={confirm}
 				onClose={closeConfirm}
 			>
-				<ConfirmModal onClose={closeConfirm} />
+				<ConfirmModal />
 			</Modal>
 
 			{appliedItems.length > 0 && (
