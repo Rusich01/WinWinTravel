@@ -1,36 +1,22 @@
-// import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useFilters } from '@hook/useFilters'
+import Modal from '@modal/modal'
 import i18next from 'i18next'
-import england from 'src/assets/img/england.png'
-import ukraine from 'src/assets/img/ukraine.png'
 
-import ConfirmModal from '@/components/confirmModal'
-import Filter from '@/components/filters'
-import Loader from '@/components/loader'
-import { useFilters } from '@/hook/useFilters'
-import Modal from '@/modal/modal'
-import { UseFilterStore } from '@/store/useFilterStore'
+import england from '@assets/img/england.png'
+import ukraine from '@assets/img/ukraine.png'
+import ConfirmModal from '@components/confirmModal'
+import Filter from '@components/filters'
+import Loader from '@components/loader'
+import { UseFilterStore } from '@store/useFilterStore'
 
 export const App = () => {
 	const { t } = useTranslation()
-	const { data, isLoading } = useFilters()
+	const { isLoading } = useFilters()
 
-	const {
-		isOpen,
-
-		closeModal,
-		openModal,
-		confirm,
-		closeConfirm,
-		appliedItems
-	} = UseFilterStore()
-
-	// useEffect(() => {
-	// 	getFilterItems()
-	// }, [getFilterItems])
-
-	if (isLoading) return <Loader />
+	const { isOpen, closeModal, openModal, confirm, closeConfirm, appliedItems } =
+		UseFilterStore()
 
 	return (
 		<section className="w-full min-h-dvh flex flex-col items-center justify-center p-4">
@@ -58,8 +44,6 @@ export const App = () => {
 				</button>
 			</div>
 
-			{/* eslint-disable-next-line i18next/no-literal-string */}
-
 			<h1 className="text-6xl text-gray-600 mb-12">{t('MainTitle')}</h1>
 
 			<button
@@ -85,11 +69,15 @@ export const App = () => {
 				<ConfirmModal />
 			</Modal>
 
-			{appliedItems.length > 0 && (
-				<p className="border rounded-2xl p-4 absolute bottom-4">
-					{JSON.stringify(appliedItems)}
-				</p>
-			)}
+			<section>
+				{appliedItems.length > 0 && (
+					<ul className="border rounded-2xl p-4 absolute bottom-4">
+						{appliedItems.map(item => (
+							<li key={item}>{t(item)}</li>
+						))}
+					</ul>
+				)}
+			</section>
 		</section>
 	)
 }

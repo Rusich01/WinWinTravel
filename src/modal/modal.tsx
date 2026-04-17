@@ -14,12 +14,17 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 				onClose()
 			}
 		}
-		if (isOpen) document.addEventListener('keydown', handleKey)
+		if (isOpen) {
+			document.addEventListener('keydown', handleKey)
+		}
 
 		return () => document.removeEventListener('keydown', handleKey)
 	}, [isOpen, onClose])
 
-	if (!isOpen) return null
+	if (!isOpen) {
+		return null
+	}
+
 	return createPortal(
 		<div
 			className="fixed inset-0 z-50 flex items-center justify-center overflow-auto backdrop-blur-sm"
@@ -45,7 +50,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 							x2="20"
 							y2="20"
 							stroke="black"
-							stroke-width="2"
+							strokeWidth="2"
 						/>
 						<line
 							x1="20"
@@ -53,7 +58,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 							x2="0"
 							y2="20"
 							stroke="black"
-							stroke-width="2"
+							strokeWidth="2"
 						/>
 					</svg>
 				</button>

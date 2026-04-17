@@ -15,7 +15,7 @@ interface UseFilter {
 
 	// Function
 	onCheck: (id: string) => void
-	applyFilters: () => void
+	applyFilters: VoidFunction
 	closeConfirm: VoidFunction
 	openConfirm: VoidFunction
 	closeModal: VoidFunction
@@ -29,8 +29,6 @@ export const UseFilterStore = create<UseFilter>()(
 			filterItems: [],
 			appliedItems: [],
 			checkedItems: {},
-			loading: false,
-			error: null,
 			isOpen: false,
 			confirm: false,
 
