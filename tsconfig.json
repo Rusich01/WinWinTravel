@@ -16,6 +16,7 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@components/*": ["./src/components/*"],
+			"@assets/*": ["./src/assets/*"],
 			"@store/*": ["./src/store/*"],
 			"@modal/*": ["./src/modal/*"],
 			"@api/*": ["./src/api/*"],

@@ -14,7 +14,8 @@
 		"preview": "vite preview",
 		"prepare": "husky install",
 		"test": "vitest",
-		"coverage": "vitest run --coverage"
+		"coverage": "vitest run --coverage",
+		"lint": "eslint ."
 	},
 	"dependencies": {
 		"@tanstack/react-query": "^5.74.3",
@@ -56,7 +57,7 @@
 		"prettier": "^3.5.3",
 		"tailwindcss": "^4.1.3",
 		"tw-animate-css": "^1.2.5",
-		"typescript": "^5.8.3",
+		"typescript": "^5.3.3",
 		"vite": "^6.2.6",
 		"vite-plugin-svgr": "^4.3.0",
 		"vitest": "^1.6.1"

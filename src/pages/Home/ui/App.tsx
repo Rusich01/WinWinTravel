@@ -69,7 +69,7 @@ export const App = () => {
 				<ConfirmModal />
 			</Modal>
 
-			<section>
+			<section className="flex justify-center">
 				{appliedItems.length > 0 && (
 					<ul className="border rounded-2xl p-4 absolute bottom-4">
 						{appliedItems.map(item => (
